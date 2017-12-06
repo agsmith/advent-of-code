@@ -1,5 +1,4 @@
 import scala.math
-
 import scala.collection.immutable.Map
 
 val threshold = 361527
@@ -58,7 +57,6 @@ def SouthEastEmpty(curr: Coords, m: Map[Coords, Double]): Boolean = squareEmpty(
 def SouthWestEmpty(curr: Coords, m: Map[Coords, Double]): Boolean = squareEmpty(Coords(curr.x-1, curr.y-1), m)
 
 def edge(curr: Coords, m: Map[Coords, Double]): Edge = {
-
   if(NorthEmpty(curr, m) && EastEmpty(curr, m) && SouthEmpty(curr, m) && WestEmpty(curr, m)) Island
   else if(NorthEmpty(curr, m) && EastEmpty(curr, m) && SouthEmpty(curr, m) && !WestEmpty(curr, m)) BigIsland
   else if(NorthEmpty(curr, m) && WestEmpty(curr, m) && EastEmpty(curr, m) && !SouthEmpty(curr, m) && !SouthWestEmpty(curr, m)) NECorner

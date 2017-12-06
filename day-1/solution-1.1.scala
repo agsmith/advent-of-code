@@ -5,6 +5,6 @@ val inputString = "6592822488931338589815525425236818285229555616392928433262436
 
 val inList = inputString.split("").toList.map { _.toInt }
 
-val salWithoutWrapAround = inList.foldLeft(SumAndLast(0,-1)){ (sal, n) => if(n == sal.last) SumAndLast(sal.sum + n, n) else SumAndLast(sal.sum, n) }
+val salWithoutWrapAroun = inList.foldLeft(SumAndLast(0,-1)){ (sal, n) => if(n == sal.last) SumAndLast(sal.sum + n, n) else SumAndLast(sal.sum, n) }
 
 val answer = if(inList.head == inList.reverse.head) salWithoutWrapAround.sum + salWithoutWrapAround.last else salWithoutWrapAround.sum
