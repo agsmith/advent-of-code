@@ -1,18 +1,11 @@
 import scala.io.Source
+import scala.math
 
 val filename = "/Users/adamsmith/work/ccad/Development/github/advent-of-code/day-8/in.txt"
 
 val lines: List[String]  = Source.fromFile(filename).getLines.toList.map{_.toString}
 
-val listOfRegMaps: List[Map[String, Int]] = for {
-  line <- lines
-} yield {
-  val string = line.split(" ").toList
-  val k = string.head
-  Map(k -> 0)
-}
-
-val regMap: Map[String, Int] = listOfRegMaps.foldLeft(Map.empty: Map[String, Int]){(a,c) => a ++ c}
+val regMap: Map[String, Int] = lines.map { line => Map(line.split(" ").toList.head -> 0) }.foldLeft(Map.empty: Map[String, Int]){_++_}
 
 case class Command(reg: String, incDec: String, amount: Int, conditionalReg: String, conditional: String, value: Int)
 case class HighestAndMap(highest: Int, m: Map[String, Int])
@@ -65,14 +58,8 @@ def execute(c: Command, m: Map[String, Int]): Map[String, Int] = {
 def go(lines: List[String], m: Map[String, Int], lastHighest: Int): HighestAndMap = {
   if(lines.isEmpty) HighestAndMap(lastHighest, m)
   else {
-    val line = lines.head
-    val command = parseLine(line)
-    val newMap = execute(command, m)
-    val newHighest = {
-      if(newMap.valuesIterator.max < lastHighest) lastHighest
-      else newMap.valuesIterator.max
-    }
-    go(lines.tail, newMap, newHighest)
+    val newMap = execute(parseLine(lines.head), m)
+    go(lines.tail, newMap, math.max(newMap.valuesIterator.max, lastHighest))
   }
 }
 

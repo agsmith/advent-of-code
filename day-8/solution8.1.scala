@@ -4,15 +4,7 @@ val filename = "/Users/adamsmith/work/ccad/Development/github/advent-of-code/day
 
 val lines: List[String]  = Source.fromFile(filename).getLines.toList.map{_.toString}
 
-val listOfRegMaps: List[Map[String, Int]] = for {
-  line <- lines
-} yield {
-  val string = line.split(" ").toList
-  val k = string.head
-  Map(k -> 0)
-}
-
-val regMap: Map[String, Int] = listOfRegMaps.foldLeft(Map.empty: Map[String, Int]){(a,c) => a ++ c}
+val regMap: Map[String, Int] = lines.map { line => Map(line.split(" ").toList.head -> 0) }.foldLeft(Map.empty: Map[String, Int]){_++_}
 
 case class Command(reg: String, incDec: String, amount: Int, conditionalReg: String, conditional: String, value: Int)
 
@@ -63,12 +55,7 @@ def execute(c: Command, m: Map[String, Int]): Map[String, Int] = {
 
 def go(lines: List[String], m: Map[String, Int]): Map[String, Int] = {
   if(lines.isEmpty) m
-  else {
-    val line = lines.head
-    val command = parseLine(line)
-    val newMap = execute(command, m)
-    go(lines.tail, newMap)
-  }
+  else go(lines.tail, execute(parseLine(lines.head), m))
 }
 
 go(lines, regMap).valuesIterator.max
